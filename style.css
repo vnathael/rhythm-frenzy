@@ -36,7 +36,6 @@ body {
     border-right: none;
 }
 
-/* Hit line properly positioned */
 #hit-line {
     position: absolute;
     bottom: 15%;
@@ -46,15 +45,15 @@ body {
     background-color: rgb(0, 0, 0);
 }
 
-/* Falling elements - long rectangles */
 .game-element {
     position: absolute;
     width: 60px;
     height: 80px;
-    background-color: rgb(149, 58, 190);
+    background: linear-gradient(to bottom, pink 0%, #ff80bf 25%, rgb(196, 40, 235) 50%, #ff80bf 75%, pink 100%);
     border-radius: 5px;
-    transition: background-color 0.2s;
+    transition: background 0.2s;
 }
+
 
 /* Keys container */
 #keys-container {

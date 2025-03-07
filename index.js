@@ -101,7 +101,7 @@ function updateElements(time) {
             item.el.style.transform = `translateY(${item.y}px)`;
 
             if (item.y > hitLineY + item.height) {
-                item.el.style.backgroundColor = "red";
+                item.el.style.background = "red";
                 if (!item.hitTime) {
                     score -= 5;
                     scoreDisplay.innerText = `Score: ${score}`;
@@ -130,11 +130,16 @@ function handleKeyPress(event) {
 
     let elementBottom = closestElement.y + closestElement.height;
     let elementTop = closestElement.y;
+    let center = elementTop + (closestElement.height / 2);
+    let distanceFromCenter = Math.abs(center - hitLineY);
+    let maxDistance = closestElement.height / 2;
+    let accuracy = Math.max(0, 1 - (distanceFromCenter / maxDistance));
 
     if (elementTop <= hitLineY && elementBottom >= hitLineY) {
-        closestElement.el.style.backgroundColor = "green";
+        closestElement.el.style.background ="green";
         playSound(key);
-        score += 10;
+        let points = Math.round(10 + accuracy * 10);
+        score += points;
         scoreDisplay.innerText = `Score: ${score}`;
         setTimeout(() => closestElement.el.remove(), 200);
         elements = elements.filter(item => item !== closestElement);
