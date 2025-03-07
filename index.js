@@ -30,6 +30,10 @@ const sounds = {
     "K": new Audio("sound-k.mp3")
 };
 
+function getRandomHeight() {
+    return Math.floor(Math.random() * 60) + 10;
+}
+
 function startGameTimer(time) {
     if (!gameStartTime) {
         gameStartTime = time;
@@ -62,9 +66,11 @@ function createElement() {
             element.classList.add("game-element");
             element.dataset.key = key;
             element.style.top = "0px";
-            column.appendChild(element);
+            let height = getRandomHeight();
+            element.style.height = `${height}px`;
 
-            elements.push({ el: element, y: 0, key, hitTime: null });
+            column.appendChild(element);
+            elements.push({ el: element, y: 0, key, hitTime: null, height });
         }
 
         createElement();
@@ -94,7 +100,7 @@ function updateElements(time) {
             item.y += gameSpeed;
             item.el.style.transform = `translateY(${item.y}px)`;
 
-            if (item.y > hitLineY + 50) {
+            if (item.y > hitLineY + item.height) {
                 item.el.style.backgroundColor = "red";
                 if (!item.hitTime) {
                     score -= 5;
@@ -122,7 +128,7 @@ function handleKeyPress(event) {
 
     if (closestElement.y === Infinity) return;
 
-    let elementBottom = closestElement.y + 80;
+    let elementBottom = closestElement.y + closestElement.height;
     let elementTop = closestElement.y;
 
     if (elementTop <= hitLineY && elementBottom >= hitLineY) {
@@ -132,7 +138,7 @@ function handleKeyPress(event) {
         scoreDisplay.innerText = `Score: ${score}`;
         setTimeout(() => closestElement.el.remove(), 200);
         elements = elements.filter(item => item !== closestElement);
-    } else{
+    } else {
         score -= 5;
         scoreDisplay.innerText = `Score: ${score}`;
     }
