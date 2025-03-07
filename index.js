@@ -168,6 +168,11 @@ function resetGame() {
     scoreDisplay.innerText = `Score: ${score}`;
     timerDisplay.innerText = `Time Left: 30s`;
 
+    const allTimeouts = window.setTimeout(() => { }, 0);
+    for (let i = 0; i < allTimeouts; i++) {
+        window.clearTimeout(i);
+    }
+
     Object.values(columns).forEach(column => {
         column.innerHTML = '';
     });
