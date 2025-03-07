@@ -10,51 +10,46 @@ const columns = {
     "K": document.getElementById("col-k")
 };
 
-const keys = Object.keys(columns); // ["S", "D", "J", "K"]
+const keys = Object.keys(columns);
 let elements = [];
 let score = 0;
 let gameSpeed = 3;
 let gameRunning = true;
 
-const hitLineY = gameContainer.clientHeight * 0.85; // Adjusted hit line position
-const gameDuration = 30000; // Game duration in milliseconds (30 seconds)
-let gameStartTime = null; // Start time of the game
-let lastCreationTime = 0; // Time tracker for element creation
+const hitLineY = gameContainer.clientHeight * 0.85;
+const gameDuration = 30000;
+let gameStartTime = null;
+let lastCreationTime = 0;
 
-// Game Loop Control
-let lastFrameTime = 0; // Track the last frame time to control frame rate
+let lastFrameTime = 0;
 
 function startGameTimer(time) {
     if (!gameStartTime) {
         gameStartTime = time;
     }
     const elapsedTime = time - gameStartTime;
-    const timeLeft = Math.max(0, gameDuration - elapsedTime); // Ensure time left is not negative
+    const timeLeft = Math.max(0, gameDuration - elapsedTime);
 
-    // Update the timer display
-    const secondsLeft = Math.floor(timeLeft / 1000); // Convert to seconds
+    const secondsLeft = Math.floor(timeLeft / 1000);
     timerDisplay.innerText = `Time Left: ${secondsLeft}s`;
 
-    // End the game after the set duration
     if (elapsedTime >= gameDuration) {
         gameRunning = false;
         scoreDisplay.innerText = `Game Over! Final Score: ${score}`;
-        return; // Exit early to stop the game
+        return;
     }
 
-    requestAnimationFrame(startGameTimer); // Keep running the timer
+    requestAnimationFrame(startGameTimer);
 }
 
 function createElement() {
     if (!gameRunning) return;
 
-    // Random delay between element creations
-    const randomDelay = Math.random() * 1000 + 500; // Between 500ms and 1500ms
+    const randomDelay = Math.random() * 1000 + 500;
     setTimeout(() => {
-        let key = keys[Math.floor(Math.random() * 4)]; // Randomly pick a column key
+        let key = keys[Math.floor(Math.random() * 4)];
         let column = columns[key];
 
-        // Check if a new element can be created without overlapping
         if (canSpawnElement(column)) {
             let element = document.createElement("div");
             element.classList.add("game-element");
@@ -65,19 +60,17 @@ function createElement() {
             elements.push({ el: element, y: 0, key, hitTime: null });
         }
 
-        // Create the next element after a random delay
         createElement();
     }, randomDelay);
 }
 
 function canSpawnElement(column) {
     const columnElements = elements.filter(item => item.el.parentElement === column);
-    const minDistance = 100; // Minimum distance between elements
+    const minDistance = 100;
 
-    // Check if any existing element is too close to the top
     for (let element of columnElements) {
         if (element.y < minDistance) {
-            return false; // There is already an element too close to the top
+            return false;
         }
     }
 
@@ -87,19 +80,18 @@ function canSpawnElement(column) {
 function updateElements(time) {
     if (!gameRunning) return;
 
-    // Control update rate based on time
-    if (time - lastFrameTime >= 1000 / 60) { // Target 60 FPS
+    if (time - lastFrameTime >= 1000 / 60) {
         lastFrameTime = time;
 
         elements.forEach((item, index) => {
             item.y += gameSpeed;
             item.el.style.transform = `translateY(${item.y}px)`;
 
-            // Remove if missed
             if (item.y > hitLineY + 50) {
-                item.el.style.backgroundColor = "red"; // Missed
+                item.el.style.backgroundColor = "red";
                 if (!item.hitTime) {
-                    score -= 5; // Penalize for missing
+                    score -= 5;
+                    scoreDisplay.innerText = `Score: ${score}`;
                 }
                 setTimeout(() => item.el.remove(), 500);
                 elements.splice(index, 1);
@@ -107,14 +99,13 @@ function updateElements(time) {
         });
     }
 
-    requestAnimationFrame(updateElements); // Recursive call to update elements
+    requestAnimationFrame(updateElements);
 }
 
 function handleKeyPress(event) {
     let key = event.key.toUpperCase();
-    if (!keys.includes(key)) return; // Ignore unassigned keys
+    if (!keys.includes(key)) return;
 
-    // Find the closest rectangle in the correct column
     let closestElement = elements
         .filter(item => item.key === key)
         .reduce((closest, item) => {
@@ -122,12 +113,11 @@ function handleKeyPress(event) {
             return distance < Math.abs(closest.y - hitLineY) ? item : closest;
         }, { y: Infinity });
 
-    if (closestElement.y === Infinity) return; // No element found
+    if (closestElement.y === Infinity) return;
 
-    let elementBottom = closestElement.y + 80; // Bottom of rectangle
-    let elementTop = closestElement.y; // Top of rectangle
+    let elementBottom = closestElement.y + 80;
+    let elementTop = closestElement.y;
 
-    // If any part of the rectangle overlaps with the hit line, it's valid
     if (elementTop <= hitLineY && elementBottom >= hitLineY) {
         closestElement.el.style.backgroundColor = "green";
         playSound();
@@ -144,34 +134,29 @@ function playSound() {
 }
 
 function resetGame() {
-    // Reset variables
     score = 0;
     elements = [];
     gameRunning = true;
     gameStartTime = null;
     lastCreationTime = 0;
-    lastFrameTime = 0; // Reset frame time tracker
-    gameSpeed = 3;  // Ensure gameSpeed is reset to its initial value
+    lastFrameTime = 0;
+    gameSpeed = 3;
 
-    // Clear the score and timer
     scoreDisplay.innerText = `Score: ${score}`;
     timerDisplay.innerText = `Time Left: 30s`;
 
-    // Clear all game elements from the columns
     Object.values(columns).forEach(column => {
-        column.innerHTML = ''; // Remove all children (game elements)
+        column.innerHTML = '';
     });
 
-    // Start the game loop again
     requestAnimationFrame(startGameTimer);
-    createElement(); // Start creating elements
+    createElement();
     requestAnimationFrame(updateElements);
 }
 
 document.addEventListener("keydown", handleKeyPress);
-resetButton.addEventListener("click", resetGame); // Add event listener for the reset button
+resetButton.addEventListener("click", resetGame);
 
-// Start the game loop initially
 requestAnimationFrame(startGameTimer);
-createElement(); // Start the creation of elements
+createElement();
 requestAnimationFrame(updateElements);
