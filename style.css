@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #222;
+    color: white;
+    text-align: center;
+}
+
+#game-container {
+    position: relative;
+    width: 400px;
+    height: 80vh;
+    margin: auto;
+    display: flex;
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+    background-color: black;
+    position: relative;
+}
+
+.column {
+    width: 25%;
+    height: 100%;
+    border-right: 2px solid white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.column:last-child {
+    border-right: none;
+}
+
+/* Hit line properly positioned */
+#hit-line {
+    position: absolute;
+    bottom: 15%;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: red;
+}
+
+/* Falling elements - long rectangles */
+.game-element {
+    position: absolute;
+    width: 60px;
+    height: 80px;
+    background-color: blue;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+/* Keys container */
+#keys-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 10px;
+}
+
+.key {
+    width: 80px;
+    height: 40px;
+    background-color: #444;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 2px solid white;
+}
+
+#timer {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+#score {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+#reset-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#reset-btn:hover {
+    background-color: #666;
+}
