@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #eccce8;
+    color: white;
+    text-align: center;
+}
+
+#game-container {
+    position: relative;
+    width: 400px;
+    height: 80vh;
+    margin: auto;
+    display: flex;
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+    background-color: rgb(184, 127, 174);
+    position: relative;
+}
+
+.column {
+    width: 25%;
+    height: 100%;
+    border-right: 2px solid white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.column:last-child {
+    border-right: none;
+}
+
+#hit-line {
+    position: absolute;
+    bottom: 15%;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: rgb(0, 0, 0);
+}
+
+.game-element {
+    position: absolute;
+    width: 60px;
+    height: 80px;
+    background: linear-gradient(to bottom, pink 0%, #ff80bf 25%, rgb(196, 40, 235) 50%, #ff80bf 75%, pink 100%);
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+
+/* Keys container */
+#keys-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 10px;
+}
+
+.key {
+    width: 80px;
+    height: 40px;
+    background-color: #c300ff;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+#timer {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: purple;
+}
+
+#score {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: purple;
+}
+
+#reset-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #c300ff;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+#reset-btn:hover {
+    background-color: #f700ff;
+}
+
+#welcomePageButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #c300ff;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+#welcomePageButton:hover {
+    background-color: #f700ff;
+}

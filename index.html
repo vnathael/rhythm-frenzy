@@ -3,32 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhythm Frenzy</title>
+    <title>Menu- Rhythm Frenzy</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
-        <div class="column" id="col-s"></div>
-        <div class="column" id="col-d"></div>
-        <div class="column" id="col-j"></div>
-        <div class="column" id="col-k"></div>
-        <div id="hit-line"></div>
-    </div>
+    <header>
+        <h2>Rhythm Frenzy Rules</h2>
+    </header>
+    <main>
+        <section>
+            <p>Rhythm Frenzy is a Rhythm game where the player needs to press keys at the right timing to gain points</p>
+            <ul>
+                <li>Use the S D J and K keys for each column of the game.</li>
+                <li>Press them at the right timing to gain points.</li>
+                <li>Pressing it without rectangles to validate or missing them will take points away.</li>
+                <li>The game last for 30s, good luck !</li>
+            </ul>
+            <h2>Scoring</h2>
+            <ul>
+                <li>Each correct key press will give you points.</li>
+                <li>The closest you are to the middle, the more you'll get points.</li>
+                <li>Missing a rectangle will take away 5 points.</li>
+                <li>Pressing a key at a wrong time will take away 5 points.</li>
+            </ul>
 
-    <!-- Keys Display -->
-    <div id="keys-container">
-        <div class="key">S</div>
-        <div class="key">D</div>
-        <div class="key">J</div>
-        <div class="key">K</div>
-    </div>
-
-    <div id="timer">Time Left: 30s</div>
-
-    <div id="score">Score: 0</div>
-
-    <button id="reset-btn">Reset Game</button>
-    
-    <script src="index.js"></script>
+            <nav>
+                <a href="game.html">Play</a>
+            </nav>
+    </main>
 </body>
 </html>
