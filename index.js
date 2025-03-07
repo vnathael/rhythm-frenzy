@@ -136,7 +136,7 @@ function updateElements(time) {
 //Si quand t'appuies y'a un élement sur la ligne alors il devient vert, joue un son, et + score, sinon -5
 function handleKeyPress(event) {
     let key = event.key.toUpperCase();
-    if (!keys.includes(key)) return;
+    if (!keys.includes(key) || !gameRunning) return;
 
     let closestElement = elements
         .filter(item => item.key === key)
@@ -155,7 +155,7 @@ function handleKeyPress(event) {
     let accuracy = Math.max(0, 1 - (distanceFromCenter / maxDistance));
 
     if (elementTop <= hitLineY && elementBottom >= hitLineY) {
-        closestElement.el.style.background ="green";
+        closestElement.el.style.background = "green";
         playSound(key);
         let points = Math.round(10 + accuracy * 10);
         score += points;
