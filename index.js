@@ -23,6 +23,13 @@ let lastCreationTime = 0;
 
 let lastFrameTime = 0;
 
+const sounds = {
+    "S": new Audio("sound-s.mp3"),
+    "D": new Audio("sound-d.mp3"),
+    "J": new Audio("sound-j.mp3"),
+    "K": new Audio("sound-k.mp3")
+};
+
 function startGameTimer(time) {
     if (!gameStartTime) {
         gameStartTime = time;
@@ -120,17 +127,22 @@ function handleKeyPress(event) {
 
     if (elementTop <= hitLineY && elementBottom >= hitLineY) {
         closestElement.el.style.backgroundColor = "green";
-        playSound();
+        playSound(key);
         score += 10;
         scoreDisplay.innerText = `Score: ${score}`;
         setTimeout(() => closestElement.el.remove(), 200);
         elements = elements.filter(item => item !== closestElement);
+    } else{
+        score -= 5;
+        scoreDisplay.innerText = `Score: ${score}`;
     }
 }
 
-function playSound() {
-    let audio = new Audio("valid.mp3");
-    audio.play();
+function playSound(key) {
+    if (sounds[key]) {
+        sounds[key].currentTime = 0;
+        sounds[key].play();
+    }
 }
 
 function resetGame() {
