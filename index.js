@@ -133,17 +133,23 @@ function updateElements(time) {
 }
 
 // Gère les touches du clavier
-//Si quand t'appuies y'a un élement sur la ligne alors il devient vert, joue un son, et + score, sinon -5
+// Si quand t'appuies y'a un élement sur la ligne alors il devient vert, joue un son, et + score, sinon -5
 function handleKeyPress(event) {
     let key = event.key.toUpperCase();
     if (!keys.includes(key) || !gameRunning) return;
 
-    let closestElement = elements
-        .filter(item => item.key === key)
-        .reduce((closest, item) => {
-            let distance = Math.abs(item.y - hitLineY);
-            return distance < Math.abs(closest.y - hitLineY) ? item : closest;
-        }, { y: Infinity });
+    const columnElements = elements.filter(item => item.key === key);
+    
+    if (columnElements.length === 0) {
+        score -= 5;
+        scoreDisplay.innerText = `Score: ${score}`;
+        return;
+    }
+
+    let closestElement = columnElements.reduce((closest, item) => {
+        let distance = Math.abs(item.y - hitLineY);
+        return distance < Math.abs(closest.y - hitLineY) ? item : closest;
+    }, { y: Infinity });
 
     if (closestElement.y === Infinity) return;
 
