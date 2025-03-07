@@ -3,6 +3,7 @@ const scoreDisplay = document.getElementById("score");
 const timerDisplay = document.getElementById("timer");
 const resetButton = document.getElementById("reset-btn");
 
+//Object contenant les élements HTML columns
 const columns = {
     "S": document.getElementById("col-s"),
     "D": document.getElementById("col-d"),
@@ -10,7 +11,9 @@ const columns = {
     "K": document.getElementById("col-k")
 };
 
+//Stock les touches de base
 const keys = Object.keys(columns);
+//Stock les élements du jeu sur l'écran actuellement
 let elements = [];
 let score = 0;
 let gameSpeed = 3;
@@ -21,8 +24,10 @@ const gameDuration = 30000;
 let gameStartTime = null;
 let lastCreationTime = 0;
 
+//Control des FPS
 let lastFrameTime = 0;
 
+//associe son aux touches S D J K
 const sounds = {
     "S": new Audio("sound-s.mp3"),
     "D": new Audio("sound-d.mp3"),
@@ -30,10 +35,13 @@ const sounds = {
     "K": new Audio("sound-k.mp3")
 };
 
+//Hauteur aléatoire des rectangles
 function getRandomHeight() {
     return Math.floor(Math.random() * 60) + 10;
 }
 
+// commence et update le timer du jeu
+// Finis le jeu quand 30s sont passé
 function startGameTimer(time) {
     if (!gameStartTime) {
         gameStartTime = time;
@@ -53,6 +61,11 @@ function startGameTimer(time) {
     requestAnimationFrame(startGameTimer);
 }
 
+//crée de nouveau élements à une intervalle random
+//prends une touche et vérifie si il peut spawn là
+//Si oui nouveau div créé dans la colone 
+//Y initial à 0
+//Hauteur aléatoire
 function createElement() {
     if (!gameRunning) return;
 
@@ -77,6 +90,7 @@ function createElement() {
     }, randomDelay);
 }
 
+// vérifie si il y a assez d'espace pour spawn un autre rectangle
 function canSpawnElement(column) {
     const columnElements = elements.filter(item => item.el.parentElement === column);
     const minDistance = 100;
@@ -90,6 +104,9 @@ function canSpawnElement(column) {
     return true;
 }
 
+//update la position de chaque élement
+//les fait descendre avec gamespeed comme pixel par frame
+//si élément après la ligne il devient rouge, -5 score ppuis disparait après .5s
 function updateElements(time) {
     if (!gameRunning) return;
 
@@ -115,6 +132,8 @@ function updateElements(time) {
     requestAnimationFrame(updateElements);
 }
 
+// Gère les touches du clavier
+//Si quand t'appuies y'a un élement sur la ligne alors il devient vert, joue un son, et + score, sinon -5
 function handleKeyPress(event) {
     let key = event.key.toUpperCase();
     if (!keys.includes(key)) return;
@@ -149,6 +168,7 @@ function handleKeyPress(event) {
     }
 }
 
+// joue le son voulu quand chaque touche est pressée
 function playSound(key) {
     if (sounds[key]) {
         sounds[key].currentTime = 0;
@@ -156,6 +176,8 @@ function playSound(key) {
     }
 }
 
+//Réinitialise le jeu
+// Clear tout
 function resetGame() {
     score = 0;
     elements = [];
